@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Baloo+Da+2:wght@500;700;800&family=Nunito:wght@400;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Baloo 2", "Baloo Da 2", system-ui, sans-serif;
+  --font-sans: "Nunito", "Hind Siliguri", system-ui, sans-serif;
+  --color-navy: #17357f;
+  --color-navy-dark: #0e2358;
+  --color-orange: #f7841a;
+  --color-orange-dark: #d96c07;
+  --color-leaf: #3aa62c;
+  --color-leaf-dark: #2a7d1f;
+  --color-gold: #f5a623;
+  --color-tint: #fff7ea;
+}
+
+@layer base {
+  body {
+    @apply bg-white font-sans text-navy-dark antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-navy;
+  }
+  :lang(bn) {
+    line-height: 1.7;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-orange;
+  }
+}
