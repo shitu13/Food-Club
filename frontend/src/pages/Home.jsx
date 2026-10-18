@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import HeroSlider from "../components/home/HeroSlider";
 import { useLanguage } from "../i18n/useLanguage";
 import logo from "../assets/logo.jpg";
 
@@ -14,6 +15,8 @@ export default function Home() {
 
     return (
         <>
+            <HeroSlider />
+
             <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20">
                 <div>
                     <h1 className="text-5xl font-extrabold leading-tight sm:text-6xl">

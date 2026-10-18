@@ -2,6 +2,7 @@ export default {
     "lang.label": "Language",
     tagline: "Good Food Good Mood",
 
+    "nav.home": "Home",
     "nav.menu": "Menu",
     "nav.dineIn": "Dine-In Menu",
     "nav.takeout": "Takeout / Delivery Menu",
@@ -14,6 +15,7 @@ export default {
     "nav.about": "About Us",
     "nav.ourStory": "Our Story & Chef",
     "nav.reviews": "Customer Reviews",
+    "nav.giftCards": "Gift Cards",
     "nav.contact": "Contact & Hours",
     "nav.terms": "Terms & Conditions",
     "nav.privacy": "Privacy Policy",
@@ -105,4 +107,11 @@ export default {
     "reviews.submit": "Submit review",
     "reviews.ratingRequired": "Please choose a star rating.",
     "reviews.thanks": "Thank you! Reviews will appear here once the management system is connected.",
+
+    "slider.label": "Featured highlights",
+    "slider.prev": "Previous slide",
+    "slider.next": "Next slide",
+    "slider.goTo": "Go to slide",
+    "slider.pause": "Pause slideshow",
+    "slider.play": "Play slideshow",
 };
