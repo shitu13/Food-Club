@@ -1,4 +1,4 @@
 {
   "DEPLOYPATH": "/home/foodclub/public_html/",
-  "task": ["backend", "frontend", "package.json"]
+  "task": ["frontend"]
 }
