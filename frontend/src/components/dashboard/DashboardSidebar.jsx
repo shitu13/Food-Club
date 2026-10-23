@@ -2,14 +2,20 @@ import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.jpg";
 import Icon from "./Icon";
 
+import { ROLES } from "../../utils/constants";
+
 const links = [
   { to: "/dashboard", label: "Overview", icon: "overview", end: true },
   { to: "/dashboard/menu-items", label: "Menu items", icon: "list" },
   { to: "/dashboard/dishes", label: "Dishes", icon: "dishes" },
-  { to: "/dashboard/managers", label: "Managers", icon: "users" },
+  { to: "/dashboard/managers", label: "Managers", icon: "users", superAdminOnly: true },
+  { to: "/dashboard/profile", label: "My profile", icon: "user" },
 ];
 
 export default function DashboardSidebar({ open, onClose, user, onLogout }) {
+  const isSuperAdmin = user.role === ROLES.SUPER_ADMIN;
+  const visibleLinks = links.filter((link) => isSuperAdmin || !link.superAdminOnly);
+
   return (
     <>
       {open && <div className="fixed inset-0 z-40 bg-navy-dark/60 lg:hidden" onClick={onClose} aria-hidden="true" />}
@@ -23,12 +29,12 @@ export default function DashboardSidebar({ open, onClose, user, onLogout }) {
           <img src={logo} alt="" className="h-11 w-11 rounded-full" />
           <div>
             <p className="font-display text-xl font-extrabold leading-none">Food Club</p>
-            <p className="text-xs text-white/70">Admin panel</p>
+            <p className="text-xs text-white/70">{isSuperAdmin ? "Admin panel" : "Manager panel"}</p>
           </div>
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Dashboard">
-          {links.map((link) => (
+          {visibleLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -49,7 +55,7 @@ export default function DashboardSidebar({ open, onClose, user, onLogout }) {
         <div className="border-t border-white/15 px-5 py-4">
           <p className="truncate font-bold">{user.name}</p>
           <p className="truncate text-xs text-white/70">{user.email}</p>
-          <p className="mt-1 text-xs font-bold text-gold">{user.role === "superadmin" ? "Super admin" : "Manager"}</p>
+          <p className="mt-1 text-xs font-bold text-gold">{isSuperAdmin ? "Super admin" : "Manager"}</p>
           <div className="mt-3 flex items-center">
             <button type="button" onClick={onLogout} className="flex items-center gap-1.5 text-sm font-semibold text-white/85 hover:text-gold">
               <Icon name="logout" className="h-4 w-4" />

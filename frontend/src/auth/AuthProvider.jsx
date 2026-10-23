@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { setUnauthorizedHandler } from "../services/apiClient";
-import { getCurrentUser, login as loginRequest } from "../services/auth.service";
+import {
+  changePassword as changePasswordRequest,
+  getCurrentUser,
+  login as loginRequest,
+  updateProfile as updateProfileRequest,
+} from "../services/auth.service";
 import { clearToken, getToken, setToken } from "../utils/tokenStorage";
 import { AuthContext } from "./context";
 
@@ -19,6 +24,17 @@ export default function AuthProvider({ children }) {
     setToken(token);
     setUser(loggedInUser);
     return loggedInUser;
+  }, []);
+
+  const updateProfile = useCallback(async (payload) => {
+    const updated = await updateProfileRequest(payload);
+    setUser(updated);
+    return updated;
+  }, []);
+
+  const changePassword = useCallback(async (currentPassword, newPassword) => {
+    const token = await changePasswordRequest(currentPassword, newPassword);
+    setToken(token);
   }, []);
 
   useEffect(() => {
@@ -47,7 +63,10 @@ export default function AuthProvider({ children }) {
     };
   }, []);
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading, login, logout]);
+  const value = useMemo(
+    () => ({ user, loading, login, logout, updateProfile, changePassword }),
+    [user, loading, login, logout, updateProfile, changePassword]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

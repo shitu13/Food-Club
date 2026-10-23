@@ -10,3 +10,20 @@ export async function getCurrentUser() {
   const { data } = await apiClient.get("/auth/me");
   return data.data.user;
 }
+
+// Name and phone only. Email, role and status are changed by the super admin.
+export async function updateProfile(payload) {
+  const { data } = await apiClient.patch("/auth/me", payload);
+  return data.data.user;
+}
+
+// The server ends old sessions when the password changes, so it returns a fresh token.
+export async function changePassword(currentPassword, newPassword) {
+  const { data } = await apiClient.patch(
+    "/auth/password",
+    { currentPassword, newPassword },
+    // A wrong current password is a form error here, not an expired session.
+    { skipUnauthorizedHandler: true }
+  );
+  return data.data.token;
+}

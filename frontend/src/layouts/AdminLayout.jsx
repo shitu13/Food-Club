@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import Icon from "../components/dashboard/Icon";
+import { ROLES } from "../utils/constants";
 import logo from "../assets/logo.jpg";
 
 export default function AdminLayout() {
@@ -24,7 +25,7 @@ export default function AdminLayout() {
             <Icon name="menu" className="h-6 w-6" />
           </button>
           <img src={logo} alt="" className="h-9 w-9 rounded-full" />
-          <span className="font-display text-xl font-extrabold text-navy">Admin panel</span>
+          <span className="font-display text-xl font-extrabold text-navy">{user.role === ROLES.SUPER_ADMIN ? "Admin panel" : "Manager panel"}</span>
         </header>
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8">

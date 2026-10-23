@@ -24,28 +24,28 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 
 ## Environment variables
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| `NODE_ENV` | no | `development` (default), `production` or `test` |
-| `PORT` | no | Port to listen on (default `5000`; Render sets it for you) |
-| `TRUST_PROXY` | no | Number of proxies in front of the app (default `1`, correct for Render) |
-| `MONGODB_URI` | yes | MongoDB connection string (Atlas or local) |
-| `JWT_SECRET` | yes | Random string, at least 32 characters |
-| `JWT_EXPIRES_IN` | no | Token lifetime, e.g. `12h` (default) |
-| `BCRYPT_ROUNDS` | no | Password hashing cost (default `12`) |
-| `CLIENT_URL` | no (set in production) | Frontend origin(s) allowed by CORS, comma separated, e.g. `http://localhost:5173` |
-| `SUPERADMIN_NAME` / `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD` | first run | Creates the first super admin |
+| Variable                                                       | Required               | Description                                                                       |
+| -------------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------- |
+| `NODE_ENV`                                                     | no                     | `development` (default), `production` or `test`                                   |
+| `PORT`                                                         | no                     | Port to listen on (default `5000`; Render sets it for you)                        |
+| `TRUST_PROXY`                                                  | no                     | Number of proxies in front of the app (default `1`, correct for Render)           |
+| `MONGODB_URI`                                                  | yes                    | MongoDB connection string (Atlas or local)                                        |
+| `JWT_SECRET`                                                   | yes                    | Random string, at least 32 characters                                             |
+| `JWT_EXPIRES_IN`                                               | no                     | Token lifetime, e.g. `12h` (default)                                              |
+| `BCRYPT_ROUNDS`                                                | no                     | Password hashing cost (default `12`)                                              |
+| `CLIENT_URL`                                                   | no (set in production) | Frontend origin(s) allowed by CORS, comma separated, e.g. `http://localhost:5173` |
+| `SUPERADMIN_NAME` / `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD` | first run              | Creates the first super admin                                                     |
 
 The app validates these at startup and refuses to boot with a clear message if something is wrong.
 
 ## Scripts
 
-| Script | Purpose |
-| --- | --- |
-| `npm run dev` | Start with auto-restart |
-| `npm start` | Start for production |
+| Script                    | Purpose                                  |
+| ------------------------- | ---------------------------------------- |
+| `npm run dev`             | Start with auto-restart                  |
+| `npm start`               | Start for production                     |
 | `npm run seed:superadmin` | Create the super admin from env and exit |
-| `npm test` | API tests (see note below) |
+| `npm test`                | API tests (see note below)               |
 
 > The tests run the real routes, validation and Mongoose models against an in-memory
 > stand-in for the database, so they need no MongoDB. They do not replace trying the
@@ -77,23 +77,23 @@ Base path: `/api/v1`. Send `Authorization: Bearer <token>` on protected routes.
 Success: `{ "success": true, "data": { ... } }`
 Error: `{ "success": false, "message": "...", "errors": [{ "field": "email", "message": "..." }] }`
 
-| Method | Path | Access | Description |
-| --- | --- | --- | --- |
-| GET | `/health` | public | Health check |
-| POST | `/auth/login` | public | Email + password → token and user |
-| GET | `/auth/me` | any staff | Current user |
-| PATCH | `/auth/password` | any staff | Change own password (invalidates old tokens) |
-| GET | `/users` | super admin | List managers (`search`, `isActive`, `page`, `limit`) |
-| POST | `/users` | super admin | Create a manager |
-| PATCH | `/users/:id` | super admin | Edit name, phone, active state |
-| PATCH | `/users/:id/password` | super admin | Reset a manager's password |
-| DELETE | `/users/:id` | super admin | Delete a manager |
-| GET | `/dishes` | public | List dishes (`search`, `category`, `menu`, `isAvailable`, `page`, `limit`). Visitors only see available dishes |
-| GET | `/dishes/:id` | public | One dish |
-| POST | `/dishes` | super admin | Add a dish |
-| PATCH | `/dishes/:id` | super admin | Edit a dish |
-| DELETE | `/dishes/:id` | super admin | Delete a dish |
-| GET | `/stats` | super admin | Counts for the dashboard |
+| Method | Path                  | Access      | Description                                                                                                    |
+| ------ | --------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
+| GET    | `/health`             | public      | Health check                                                                                                   |
+| POST   | `/auth/login`         | public      | Email + password → token and user                                                                              |
+| GET    | `/auth/me`            | any staff   | Current user                                                                                                   |
+| PATCH  | `/auth/password`      | any staff   | Change own password (invalidates old tokens)                                                                   |
+| GET    | `/users`              | super admin | List managers (`search`, `isActive`, `page`, `limit`)                                                          |
+| POST   | `/users`              | super admin | Create a manager                                                                                               |
+| PATCH  | `/users/:id`          | super admin | Edit name, phone, active state                                                                                 |
+| PATCH  | `/users/:id/password` | super admin | Reset a manager's password                                                                                     |
+| DELETE | `/users/:id`          | super admin | Delete a manager                                                                                               |
+| GET    | `/dishes`             | public      | List dishes (`search`, `category`, `menu`, `isAvailable`, `page`, `limit`). Visitors only see available dishes |
+| GET    | `/dishes/:id`         | public      | One dish                                                                                                       |
+| POST   | `/dishes`             | super admin | Add a dish                                                                                                     |
+| PATCH  | `/dishes/:id`         | super admin | Edit a dish                                                                                                    |
+| DELETE | `/dishes/:id`         | super admin | Delete a dish                                                                                                  |
+| GET    | `/stats`              | super admin | Counts for the dashboard                                                                                       |
 
 To let managers edit dishes too, add `ROLES.MANAGER` to the `authorize(...)` calls in
 `src/routes/dish.routes.js`.

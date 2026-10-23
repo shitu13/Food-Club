@@ -4,18 +4,25 @@ import { useAuth } from "../../auth/useAuth";
 import PageHeader from "../../components/dashboard/PageHeader";
 import { buttonPrimary, buttonSecondary } from "../../components/dashboard/styles";
 import { getStats } from "../../services/stats.service";
+import { ROLES } from "../../utils/constants";
 
 const cards = (stats) => [
   { label: "Dishes on the menu", value: stats.dishes.total, bar: "bg-orange" },
   { label: "Available to order", value: stats.dishes.available, bar: "bg-leaf" },
-  { label: "Menu items", value: stats.menuSections.total, bar: "bg-gold" },
-  { label: "Visible menu items", value: stats.menuSections.active, bar: "bg-orange" },
-  { label: "Managers", value: stats.managers.total, bar: "bg-navy" },
-  { label: "Active managers", value: stats.managers.active, bar: "bg-leaf" },
+  { label: "Menu items", value: stats.menuSections?.total ?? 0, bar: "bg-gold" },
+  { label: "Visible menu items", value: stats.menuSections?.active ?? 0, bar: "bg-orange" },
+  // Only the super admin receives manager counts.
+  ...(stats.managers
+    ? [
+        { label: "Managers", value: stats.managers.total, bar: "bg-navy" },
+        { label: "Active managers", value: stats.managers.active, bar: "bg-leaf" },
+      ]
+    : []),
 ];
 
 export default function Overview() {
   const { user } = useAuth();
+  const isSuperAdmin = user.role === ROLES.SUPER_ADMIN;
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
 
@@ -35,7 +42,10 @@ export default function Overview() {
 
   return (
     <>
-      <PageHeader title={`Welcome, ${user.name}`} subtitle="Here is a quick look at your restaurant's menu and team." />
+      <PageHeader
+        title={`Welcome, ${user.name}`}
+        subtitle={isSuperAdmin ? "Here is a quick look at your restaurant's menu and team." : "Here is a quick look at the restaurant's menu."}
+      />
 
       {error && (
         <p role="alert" className="mb-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-800 ring-1 ring-red-200">
@@ -68,9 +78,15 @@ export default function Overview() {
         <Link to="/dashboard/dishes" className={buttonSecondary}>
           Manage dishes
         </Link>
-        <Link to="/dashboard/managers" className={buttonSecondary}>
-          Manage managers
-        </Link>
+        {isSuperAdmin ? (
+          <Link to="/dashboard/managers" className={buttonSecondary}>
+            Manage managers
+          </Link>
+        ) : (
+          <Link to="/dashboard/profile" className={buttonSecondary}>
+            My profile
+          </Link>
+        )}
       </div>
     </>
   );

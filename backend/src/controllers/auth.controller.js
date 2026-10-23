@@ -30,6 +30,16 @@ export function me(req, res) {
   res.json({ success: true, data: { user: req.user } });
 }
 
+export async function updateProfile(req, res) {
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { $set: req.validated.body },
+    { returnDocument: "after", runValidators: true }
+  );
+
+  res.json({ success: true, message: "Your details were updated.", data: { user } });
+}
+
 export async function changePassword(req, res) {
   const { currentPassword, newPassword } = req.validated.body;
 

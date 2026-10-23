@@ -1,12 +1,5 @@
 import { z } from "zod";
-import { booleanQuery, emailRule, idParams, paginationQuery, passwordRule } from "./common.js";
-
-const nameRule = z.string().trim().min(2, "Name must be at least 2 characters.").max(80, "Name is too long.");
-
-const phoneRule = z
-  .string()
-  .trim()
-  .refine((value) => value === "" || /^\+?[\d\s-]{7,20}$/.test(value), "Enter a valid phone number.");
+import { booleanQuery, emailRule, idParams, nameRule, paginationQuery, passwordRule, phoneRule } from "./common.js";
 
 export const listManagersSchema = {
   query: z.object({

@@ -20,8 +20,8 @@ const router = Router();
 // Public: the navbar's Menu dropdown reads this.
 router.get("/", optionalAuth, validate(listMenuSectionsSchema), listMenuSections);
 
-// Only the super admin decides what appears under Menu.
-router.use(protect, authorize(ROLES.SUPER_ADMIN));
+// The super admin and managers decide what appears under Menu.
+router.use(protect, authorize(ROLES.SUPER_ADMIN, ROLES.MANAGER));
 
 router.post("/", validate(createMenuSectionSchema), createMenuSection);
 router.patch("/:id", validate(updateMenuSectionSchema), updateMenuSection);

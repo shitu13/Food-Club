@@ -24,3 +24,10 @@ export const paginationQuery = {
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(10),
 };
+
+export const nameRule = z.string().trim().min(2, "Name must be at least 2 characters.").max(80, "Name is too long.");
+
+export const phoneRule = z
+  .string()
+  .trim()
+  .refine((value) => value === "" || /^\+?[\d\s-]{7,20}$/.test(value), "Enter a valid phone number.");

@@ -14,6 +14,7 @@ import MenuSectionPage from "./pages/MenuSectionPage";
 import Dishes from "./pages/dashboard/Dishes";
 import Managers from "./pages/dashboard/Managers";
 import MenuItems from "./pages/dashboard/MenuItems";
+import Profile from "./pages/dashboard/Profile";
 import Overview from "./pages/dashboard/Overview";
 import { ROLES } from "./utils/constants";
 
@@ -51,12 +52,15 @@ export default function App() {
         <Route path="*" element={<PagePlaceholder titleKey="notFound.title" />} />
       </Route>
 
-      <Route element={<RequireAuth roles={[ROLES.SUPER_ADMIN]} />}>
+      <Route element={<RequireAuth roles={[ROLES.SUPER_ADMIN, ROLES.MANAGER]} />}>
         <Route path="/dashboard" element={<AdminLayout />}>
           <Route index element={<Overview />} />
           <Route path="menu-items" element={<MenuItems />} />
           <Route path="dishes" element={<Dishes />} />
-          <Route path="managers" element={<Managers />} />
+          <Route path="profile" element={<Profile />} />
+          <Route element={<RequireAuth roles={[ROLES.SUPER_ADMIN]} redirectTo="/dashboard" />}>
+            <Route path="managers" element={<Managers />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

@@ -11,8 +11,8 @@ const router = Router();
 router.get("/", optionalAuth, validate(listDishesSchema), listDishes);
 router.get("/:id", optionalAuth, validate(dishIdSchema), getDish);
 
-// Only the super admin can change the menu. Add ROLES.MANAGER here to let managers edit it too.
-router.use(protect, authorize(ROLES.SUPER_ADMIN));
+// The super admin and managers can change the menu.
+router.use(protect, authorize(ROLES.SUPER_ADMIN, ROLES.MANAGER));
 
 router.post("/", validate(createDishSchema), createDish);
 router.patch("/:id", validate(updateDishSchema), updateDish);

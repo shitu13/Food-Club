@@ -1,7 +1,8 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./useAuth";
 
-export default function RequireAuth({ roles }) {
+// `redirectTo`: send people without the right role to another page instead of showing the "No access" screen.
+export default function RequireAuth({ roles, redirectTo }) {
   const { user, loading, logout } = useAuth();
   const location = useLocation();
 
@@ -18,6 +19,7 @@ export default function RequireAuth({ roles }) {
   }
 
   if (roles && !roles.includes(user.role)) {
+    if (redirectTo) return <Navigate to={redirectTo} replace />;
     return (
       <div className="flex min-h-screen items-center justify-center bg-tint px-4">
         <div className="max-w-md rounded-3xl border-4 border-gold bg-white p-8 text-center">
