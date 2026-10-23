@@ -1,0 +1,17 @@
+process.env.NODE_ENV = "test";
+process.env.MONGODB_URI = "mongodb://127.0.0.1:27017/test";
+process.env.JWT_SECRET = "t".repeat(48);
+process.env.BCRYPT_ROUNDS = "10";
+process.env.SUPERADMIN_EMAIL = "admin@foodclub.test";
+process.env.SUPERADMIN_PASSWORD = "Admin12345";
+process.env.CLIENT_URL ??= "http://localhost:5173";
+const mongoose = (await import("mongoose")).default;
+mongoose.set("autoIndex", false);
+mongoose.set("autoCreate", false);
+const { default: User } = await import("../src/models/User.js");
+const { default: Dish } = await import("../src/models/Dish.js");
+const { installFakeDb } = await import("./fake-db.mjs");
+export const stores = installFakeDb({ User, Dish });
+const { ensureSuperAdmin } = await import("../src/services/superAdmin.service.js");
+export const bootstrap = await ensureSuperAdmin();
+export const { default: app } = await import("../src/app.js");
