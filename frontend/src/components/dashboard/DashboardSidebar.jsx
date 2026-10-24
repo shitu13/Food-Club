@@ -8,6 +8,7 @@ const links = [
   { to: "/dashboard", label: "Overview", icon: "overview", end: true },
   { to: "/dashboard/menu-items", label: "Menu items", icon: "list" },
   { to: "/dashboard/dishes", label: "Dishes", icon: "dishes" },
+  { to: "/dashboard/pay-slip", label: "Pay slip", icon: "receipt" },
   { to: "/dashboard/managers", label: "Managers", icon: "users", superAdminOnly: true },
   { to: "/dashboard/profile", label: "My profile", icon: "user" },
 ];

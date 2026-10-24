@@ -14,6 +14,7 @@ import MenuSectionPage from "./pages/MenuSectionPage";
 import Dishes from "./pages/dashboard/Dishes";
 import Managers from "./pages/dashboard/Managers";
 import MenuItems from "./pages/dashboard/MenuItems";
+import PaySlip from "./pages/dashboard/PaySlip";
 import Profile from "./pages/dashboard/Profile";
 import Overview from "./pages/dashboard/Overview";
 import { ROLES } from "./utils/constants";
@@ -57,6 +58,7 @@ export default function App() {
           <Route index element={<Overview />} />
           <Route path="menu-items" element={<MenuItems />} />
           <Route path="dishes" element={<Dishes />} />
+          <Route path="pay-slip" element={<PaySlip />} />
           <Route path="profile" element={<Profile />} />
           <Route element={<RequireAuth roles={[ROLES.SUPER_ADMIN]} redirectTo="/dashboard" />}>
             <Route path="managers" element={<Managers />} />
